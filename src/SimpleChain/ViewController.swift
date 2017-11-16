@@ -15,7 +15,7 @@
 //
 //  
 //
-//
+//  This Controller is the entry point of the app
 //
 
 import UIKit
