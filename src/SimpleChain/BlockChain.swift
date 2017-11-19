@@ -17,14 +17,15 @@ class BlockChain: NSObject
         self.chain = []
     }
     
+    // build Genesis Block as first block of the chain
     func createGenesisBlock()
     {
         let genesisBlock = Block(index: 0, timestamp: Date().timestamp, data: "HelloChain!", previous_hash: "N0N3")
-        print("Genesis block created!")
         printBlockInfo(b: genesisBlock)
         self.chain.append(genesisBlock)
     }
     
+    // fetch the last block in the chain and building a new block
     func addNewBlockWithData(data:String)
     {
         if chain.count == 0
@@ -39,6 +40,8 @@ class BlockChain: NSObject
         chain.append(newBlock)
     }
     
+    // building a new block
+    // ToDo: implement proof of work
     func buildNextBlockWithData(previousBlock:Block, data:String) ->Block
     {
         let nextIndex = self.chain.count
@@ -48,8 +51,12 @@ class BlockChain: NSObject
         return Block(index: nextIndex, timestamp: blockTimestamp, data: blockData, previous_hash: blockHash)
     }
     
+    // Print block info for debug purpose
     func printBlockInfo(b:Block)
     {
+        if b.blockIndex == 0
+        {print("Genesis block created!")}
+        
         print("Block Info:")
         print("Index (\(b.blockIndex)) Timestamp: \(b.blockTimestamp)")
         print("BlockData \(b.blockData)")
@@ -57,6 +64,7 @@ class BlockChain: NSObject
     }
 }
 
+// extend the Date Class to support timestamp
 extension Date
 {
     var timestamp: UInt64

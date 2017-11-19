@@ -6,6 +6,14 @@
 //  Copyright © 2017 Vincenzo Ajello. All rights reserved.
 //
 
+// This is a simple Block Class:
+// every block have the following parmeters
+// blockIndex : is an incremental integer that identify a block
+// blockTimestamp : store the timestamp of the creation date of the block
+// blockData : store a custom data parameter
+// blockPreviousHash : is the sha256 hash of the previous block
+// blockHash : is the sha256 hash of the data about this block
+
 import UIKit
 
 class Block: NSObject
@@ -26,12 +34,11 @@ class Block: NSObject
     }
 }
 
-
+// return a sha256 hash of a String
 func hash_block_data(data:String) -> String
 {
     return data.sha256()
 }
-
 
 //  Importing CommonCrypt is a pain the article above helped alot
 //  link : https://stackoverflow.com/a/38788437
