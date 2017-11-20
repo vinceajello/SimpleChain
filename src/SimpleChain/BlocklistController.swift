@@ -94,8 +94,8 @@ class BlockCell: UITableViewCell
     
     func layoutCellFromBlock(block:Block)
     {
-        indexLabel.text = "BlockIndex # "+String(block.blockIndex)
-        dataLabel.text = "BlockData: "+String(block.blockData)
+        indexLabel.text = "BlockIndex # "+String(block.index)
+        dataLabel.text = "BlockData: "+String(block.data)
         hashLabel.text = "hash "+String(block.blockHash)
     }
 }

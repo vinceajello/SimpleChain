@@ -11,6 +11,7 @@ import UIKit
 class BlockChain: NSObject
 {
     var chain:[Block]
+    var difficult:Int = 4;
     
     override init()
     {
@@ -20,8 +21,9 @@ class BlockChain: NSObject
     // build Genesis Block as first block of the chain
     func createGenesisBlock()
     {
-        let genesisBlock = Block(index: 0, timestamp: Date().timestamp, data: "HelloChain!", previous_hash: "N0N3")
-        printBlockInfo(b: genesisBlock)
+        let genesisBlock = Block.init(genesisBlockWithData: "HelloChain!")
+        //let genesisBlock = Block(index: 0, data: "HelloChain!", previousBlock: Block.init(index: -1, data: "", previousBlock: nil))
+        printBlockInfo(block: genesisBlock)
         self.chain.append(genesisBlock)
     }
     
@@ -34,41 +36,36 @@ class BlockChain: NSObject
             return
         }
         
+        // fetch last block
         let lastBlock:Block = chain.last!
-        let newBlock = buildNextBlockWithData(previousBlock: lastBlock, data: data)
-        printBlockInfo(b: newBlock)
-        chain.append(newBlock)
-    }
-    
-    // building a new block
-    // ToDo: implement proof of work
-    func buildNextBlockWithData(previousBlock:Block, data:String) ->Block
-    {
-        let nextIndex = self.chain.count
-        let blockTimestamp = Date().timestamp
-        let blockData = data
-        let blockHash = previousBlock.blockHash
-        return Block(index: nextIndex, timestamp: blockTimestamp, data: blockData, previous_hash: blockHash)
+        
+        // create the new block
+        let newBlock = Block(data: data, previousBlock: lastBlock, difficult:self.difficult)
+        
+        // mine it
+        newBlock.mine
+        {
+            (mined:Block) in
+            printBlockInfo(block: newBlock)
+            chain.append(newBlock)
+        }
     }
     
     // Print block info for debug purpose
-    func printBlockInfo(b:Block)
+    func printBlockInfo(block:Block)
     {
-        if b.blockIndex == 0
+        print("")
+        if block.index == 0
         {print("Genesis block created!")}
         
         print("Block Info:")
-        print("Index (\(b.blockIndex)) Timestamp: \(b.blockTimestamp)")
-        print("BlockData \(b.blockData)")
-        print("BlockHash \(b.blockHash)")
-    }
-}
-
-// extend the Date Class to support timestamp
-extension Date
-{
-    var timestamp: UInt64
-    {
-        return UInt64((self.timeIntervalSince1970 + 62_135_596_800) * 10_000_000)
+        print("Index (\(block.index)) Timestamp: \(block.createdAt)")
+        print("BlockData \(block.data)")
+        print("CreatedAt \(NSDate(timeIntervalSince1970: block.createdAt))")
+        print("MinedAt \(NSDate(timeIntervalSince1970: block.minedAt ))")
+        print("MiningTime \(block.miningTime/1000)")
+        print("Difficult \(block.difficult)")
+        print("BlockHash \(block.blockHash)")
+        print("nonce \(block.nonce)")
     }
 }

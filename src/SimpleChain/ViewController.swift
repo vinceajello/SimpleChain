@@ -44,6 +44,7 @@ class ViewController: UIViewController
             print("NoData : Type something in the field")
             return
         }
+        
         blockchain.addNewBlockWithData(data: field.text!)
         field.text = ""
     }

@@ -8,30 +8,76 @@
 
 // This is a simple Block Class:
 // every block have the following parmeters
-// blockIndex : is an incremental integer that identify a block
-// blockTimestamp : store the timestamp of the creation date of the block
-// blockData : store a custom data parameter
-// blockPreviousHash : is the sha256 hash of the previous block
+// index : is an incremental integer that identify a block
+// timestamp : store the timestamp of the creation date of the block
+// data : store a custom data parameter
+// previousHash : is the sha256 hash of the previous block
 // blockHash : is the sha256 hash of the data about this block
+// nonce : a incremental value used in the proof-of-work calculation
 
 import UIKit
 
 class Block: NSObject
 {
-    var blockIndex:Int
-    var blockTimestamp:UInt64
-    var blockData:String
-    var blockPreviousHash:String
-    var blockHash:String
+    var index:Int
+    var createdAt:Double
+    var minedAt:Double = 0
+    var miningTime:Double = 0
+    var data:String
+    var previousHash:String
+    var blockHash:String = ""
+    var nonce: Int = 0
+    var difficult: Int
     
-    init(index:Int, timestamp:UInt64, data:String, previous_hash:String)
+    // Constructor of the Block
+    init(data:String, previousBlock:Block, difficult:Int)
     {
-        self.blockIndex = index
-        self.blockTimestamp = timestamp
-        self.blockData = data
-        self.blockPreviousHash = previous_hash
-        self.blockHash = hash_block_data(data:"\(index)\(timestamp)\(data)\(previous_hash)")
+        self.index = previousBlock.index + 1
+        self.createdAt = getCurrentTimestamp()
+        self.data = data
+        self.previousHash = previousBlock.blockHash
+        self.difficult = difficult
     }
+    
+    // Constructor of the Genesis Block
+    init(genesisBlockWithData:String)
+    {
+        self.index = 0
+        self.createdAt = getCurrentTimestamp()
+        self.data = genesisBlockWithData
+        self.previousHash = "0"
+        self.difficult = 0
+        self.blockHash = hash_block_data(data:"\(self.index)\(self.createdAt)\(self.data)\(self.previousHash)\(self.nonce)")
+    }
+    
+    func mine(completion: (_ mined:Block) -> Void)
+    {
+        self.blockHash = hash_block_data(data:"\(self.index)\(self.createdAt)\(self.data)\(self.previousHash)\(self.nonce)")
+        var trial: String = getTrialSubstring(difficult: self.difficult, hash: self.blockHash)
+
+        print("mining hash \(self.blockHash)")
+        
+        while trial != getTarget(difficult: self.difficult)
+        {
+            self.minedAt = getCurrentTimestamp()
+            self.miningTime = Double(self.minedAt - self.createdAt) * 1000
+            self.nonce = self.nonce + 1
+            self.blockHash = hash_block_data(data:"\(self.index)\(self.createdAt)\(self.data)\(self.previousHash)\(self.nonce)")
+            trial = getTrialSubstring(difficult: self.difficult, hash: self.blockHash)
+            print("mining hash \(self.blockHash)")
+        }
+        completion(self)
+    }
+}
+
+func getTrialSubstring(difficult: Int, hash:String) -> String
+{
+    return String(hash[..<hash.index(hash.startIndex, offsetBy: difficult)])
+}
+
+func getTarget(difficult:Int) -> String
+{
+    return String(format: "%0\(difficult)ld")
 }
 
 // return a sha256 hash of a String
@@ -77,3 +123,7 @@ extension String
     }
 }
 
+func getCurrentTimestamp() -> Double
+{
+    return NSDate().timeIntervalSince1970
+}
