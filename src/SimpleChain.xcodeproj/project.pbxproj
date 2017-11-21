@@ -17,6 +17,12 @@
 		6164690C1FBA355100973E8B /* SimpleChainUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6164690B1FBA355100973E8B /* SimpleChainUITests.swift */; };
 		6164691B1FBA360600973E8B /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6164691A1FBA360600973E8B /* Block.swift */; };
 		6164691D1FBA364200973E8B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6164691C1FBA364200973E8B /* Default-568h@2x.png */; };
+		618301541FC41A8A00F850D7 /* ACProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618301501FC41A8900F850D7 /* ACProgressView.swift */; };
+		618301551FC41A8A00F850D7 /* ACProgressView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 618301511FC41A8900F850D7 /* ACProgressView.xib */; };
+		618301561FC41A8A00F850D7 /* ACHUD+Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618301521FC41A8900F850D7 /* ACHUD+Animation.swift */; };
+		618301571FC41A8A00F850D7 /* ACProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618301531FC41A8A00F850D7 /* ACProgressHUD.swift */; };
+		6183015A1FC4272F00F850D7 /* ConsoleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618301591FC4272F00F850D7 /* ConsoleController.swift */; };
+		6183015C1FC443F500F850D7 /* BlockCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6183015B1FC443F500F850D7 /* BlockCell.swift */; };
 		61DCE6021FBA4E51006117BB /* BlockChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DCE6011FBA4E51006117BB /* BlockChain.swift */; };
 		61DCE6041FBB0AFE006117BB /* BlocklistController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DCE6031FBB0AFE006117BB /* BlocklistController.swift */; };
 /* End PBXBuildFile section */
@@ -57,6 +63,12 @@
 		6164691C1FBA364200973E8B /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		6164691F1FBA389500973E8B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		616469241FBA486000973E8B /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
+		618301501FC41A8900F850D7 /* ACProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACProgressView.swift; sourceTree = "<group>"; };
+		618301511FC41A8900F850D7 /* ACProgressView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ACProgressView.xib; sourceTree = "<group>"; };
+		618301521FC41A8900F850D7 /* ACHUD+Animation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ACHUD+Animation.swift"; sourceTree = "<group>"; };
+		618301531FC41A8A00F850D7 /* ACProgressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACProgressHUD.swift; sourceTree = "<group>"; };
+		618301591FC4272F00F850D7 /* ConsoleController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleController.swift; sourceTree = "<group>"; };
+		6183015B1FC443F500F850D7 /* BlockCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockCell.swift; sourceTree = "<group>"; };
 		61DCE6011FBA4E51006117BB /* BlockChain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockChain.swift; sourceTree = "<group>"; };
 		61DCE6031FBB0AFE006117BB /* BlocklistController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlocklistController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -111,13 +123,15 @@
 		616468E71FBA355000973E8B /* SimpleChain */ = {
 			isa = PBXGroup;
 			children = (
-				616468F21FBA355000973E8B /* Assets.xcassets */,
+				618301581FC41AA200F850D7 /* ACProgressHUD */,
 				616469241FBA486000973E8B /* BridgingHeader.h */,
 				616468E81FBA355000973E8B /* AppDelegate.swift */,
-				616468EA1FBA355000973E8B /* ViewController.swift */,
-				61DCE6031FBB0AFE006117BB /* BlocklistController.swift */,
 				6164691A1FBA360600973E8B /* Block.swift */,
 				61DCE6011FBA4E51006117BB /* BlockChain.swift */,
+				616468EA1FBA355000973E8B /* ViewController.swift */,
+				61DCE6031FBB0AFE006117BB /* BlocklistController.swift */,
+				6183015B1FC443F500F850D7 /* BlockCell.swift */,
+				618301591FC4272F00F850D7 /* ConsoleController.swift */,
 				616468EC1FBA355000973E8B /* Main.storyboard */,
 				616468F71FBA355000973E8B /* Info.plist */,
 				61DCE6051FBB2943006117BB /* SupportFiles */,
@@ -149,6 +163,18 @@
 				6164691F1FBA389500973E8B /* Security.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		618301581FC41AA200F850D7 /* ACProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				618301521FC41A8900F850D7 /* ACHUD+Animation.swift */,
+				618301531FC41A8A00F850D7 /* ACProgressHUD.swift */,
+				618301501FC41A8900F850D7 /* ACProgressView.swift */,
+				618301511FC41A8900F850D7 /* ACProgressView.xib */,
+				616468F21FBA355000973E8B /* Assets.xcassets */,
+			);
+			path = ACProgressHUD;
 			sourceTree = "<group>";
 		};
 		61DCE6051FBB2943006117BB /* SupportFiles */ = {
@@ -268,6 +294,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				616468F61FBA355000973E8B /* LaunchScreen.storyboard in Resources */,
+				618301551FC41A8A00F850D7 /* ACProgressView.xib in Resources */,
 				6164691D1FBA364200973E8B /* Default-568h@2x.png in Resources */,
 				616468F31FBA355000973E8B /* Assets.xcassets in Resources */,
 				616468EE1FBA355000973E8B /* Main.storyboard in Resources */,
@@ -295,11 +322,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				618301561FC41A8A00F850D7 /* ACHUD+Animation.swift in Sources */,
+				618301571FC41A8A00F850D7 /* ACProgressHUD.swift in Sources */,
 				616468EB1FBA355000973E8B /* ViewController.swift in Sources */,
+				6183015A1FC4272F00F850D7 /* ConsoleController.swift in Sources */,
 				6164691B1FBA360600973E8B /* Block.swift in Sources */,
 				616468F11FBA355000973E8B /* SimpleChain.xcdatamodeld in Sources */,
+				6183015C1FC443F500F850D7 /* BlockCell.swift in Sources */,
 				61DCE6021FBA4E51006117BB /* BlockChain.swift in Sources */,
 				616468E91FBA355000973E8B /* AppDelegate.swift in Sources */,
+				618301541FC41A8A00F850D7 /* ACProgressView.swift in Sources */,
 				61DCE6041FBB0AFE006117BB /* BlocklistController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

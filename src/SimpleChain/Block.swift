@@ -52,9 +52,9 @@ class Block: NSObject
     
     func mine(completion: (_ mined:Block) -> Void)
     {
-        self.blockHash = hash_block_data(data:"\(self.index)\(self.createdAt)\(self.data)\(self.previousHash)\(self.nonce)")
+        self.blockHash = hashThisBlockData()
         var trial: String = getTrialSubstring(difficult: self.difficult, hash: self.blockHash)
-
+        
         print("mining hash \(self.blockHash)")
         
         while trial != getTarget(difficult: self.difficult)
@@ -62,11 +62,16 @@ class Block: NSObject
             self.minedAt = getCurrentTimestamp()
             self.miningTime = Double(self.minedAt - self.createdAt) * 1000
             self.nonce = self.nonce + 1
-            self.blockHash = hash_block_data(data:"\(self.index)\(self.createdAt)\(self.data)\(self.previousHash)\(self.nonce)")
+            self.blockHash = hashThisBlockData()
             trial = getTrialSubstring(difficult: self.difficult, hash: self.blockHash)
             print("mining hash \(self.blockHash)")
         }
         completion(self)
+    }
+    
+    func hashThisBlockData() -> String
+    {
+        return hash_block_data(data:"\(self.index)\(self.createdAt)\(self.data)\(self.previousHash)\(self.nonce)")
     }
 }
 

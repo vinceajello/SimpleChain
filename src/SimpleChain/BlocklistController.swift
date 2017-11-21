@@ -11,6 +11,7 @@ import UIKit
 class BlocklistController: UITableViewController
 {
     var blockchain:BlockChain = BlockChain()
+    var progressView = ACProgressHUD.shared
 
     override func viewDidLoad()
     {
@@ -26,7 +27,7 @@ class BlocklistController: UITableViewController
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
-        return 90.0;
+        return 105.0;
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int
@@ -50,52 +51,50 @@ class BlocklistController: UITableViewController
         cell.layoutCellFromBlock(block: blockchain.chain[indexPath.row])
         return cell
     }
+    
+    @IBAction func VerifyButtonPressed(_ sender: Any)
+    {
+        progressView.progressText = "Verifying blockchain..."
+        progressView.showHUD()
+        
+        var previousBlock:Block
+        var previousBlockHash:String
+        
+        for block in self.blockchain.chain.reversed()
+        {
+            // Check if the current block is the genesis block
+            if block.index == 0
+            {
+                print("Genesis block has been reached")
+                print("The chain appear to be valid")
+                break
+            }
+            
+            print("verifying if the block at index (\(block.index)) is valid")
+            
+            // Check if the hash if the block is valid for gthe current data and nonce
+            if block.blockHash != block.hashThisBlockData()
+            {
+                print("invalid hash from the block at index(\(block.index))")
+                break
+            }
+
+            // Check if the current block contain the right hash of the previous block
+            previousBlock = blockchain.chain[block.index-1]
+            previousBlockHash = previousBlock.blockHash
+            if block.previousHash != previousBlockHash
+            {
+                print("the current block does not cantain the hash of the previous block")
+                break
+            }
+        }
+        
+        self.perform(#selector(dismissLoader), with: nil, afterDelay: 1)
+    }
+    
+    @objc func dismissLoader()
+    {
+        ACProgressHUD.shared.hideHUD()
+    }
 }
 
-class BlockCell: UITableViewCell
-{
-    var indexLabel = UILabel()
-    var dataLabel = UILabel()
-    var hashLabel = UILabel()
-    
-    init(style: UITableViewCellStyle, reuseIdentifier: String?, block:Block)
-    {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-    }
-    
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?)
-    {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-    }
-    
-    required init?(coder aDecoder: NSCoder)
-    {
-        super.init(coder: aDecoder)
-    }
-    
-    override func layoutSubviews()
-    {
-        super.layoutSubviews()
-        
-        indexLabel.frame = CGRect(x: 10, y: 5, width: self.frame.size.width-20, height: 10)
-        indexLabel.font = UIFont.systemFont(ofSize: 10)
-        //indexLabel.backgroundColor = UIColor.lightGray
-        self.contentView.addSubview(indexLabel)
-        
-        dataLabel.frame = CGRect(x: 10, y: 20, width: self.frame.size.width-20, height: 30)
-        //dataLabel.backgroundColor = UIColor.gray
-        self.contentView.addSubview(dataLabel)
-        
-        hashLabel.frame = CGRect(x: 10, y: 70, width: self.frame.size.width-20, height: 10)
-        hashLabel.font = UIFont.systemFont(ofSize: 10)
-        //hashLabel.backgroundColor = UIColor.lightGray
-        self.contentView.addSubview(hashLabel)
-    }
-    
-    func layoutCellFromBlock(block:Block)
-    {
-        indexLabel.text = "BlockIndex # "+String(block.index)
-        dataLabel.text = "BlockData: "+String(block.data)
-        hashLabel.text = "hash "+String(block.blockHash)
-    }
-}

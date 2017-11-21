@@ -12,6 +12,7 @@ class BlockChain: NSObject
 {
     var chain:[Block]
     var difficult:Int = 4;
+    var consoleOutputs: [String] = []
     
     override init()
     {
@@ -22,20 +23,13 @@ class BlockChain: NSObject
     func createGenesisBlock()
     {
         let genesisBlock = Block.init(genesisBlockWithData: "HelloChain!")
-        //let genesisBlock = Block(index: 0, data: "HelloChain!", previousBlock: Block.init(index: -1, data: "", previousBlock: nil))
-        printBlockInfo(block: genesisBlock)
+        addBlockInfoToConsole(block: genesisBlock)
         self.chain.append(genesisBlock)
     }
     
     // fetch the last block in the chain and building a new block
     func addNewBlockWithData(data:String)
     {
-        if chain.count == 0
-        {
-            print("Empty Chain! : Create a genesis block w HelloChain button")
-            return
-        }
-        
         // fetch last block
         let lastBlock:Block = chain.last!
         
@@ -46,9 +40,37 @@ class BlockChain: NSObject
         newBlock.mine
         {
             (mined:Block) in
-            printBlockInfo(block: newBlock)
-            chain.append(newBlock)
+            addBlockInfoToConsole(block: mined)
+            
+            chain.append(mined)
+            ACProgressHUD.shared.hideHUD()
         }
+    }
+    
+    // add block infos to consoleOutputs
+    func addBlockInfoToConsole(block:Block)
+    {
+        printBlockInfo(block: block)
+        
+        consoleOutputs.append("")
+        if block.index == 0
+        {
+            consoleOutputs.append("Genesis block:")
+        }
+        
+        consoleOutputs.append("# BlockIndex(\(block.index) Timestamp: \(block.createdAt)")
+        consoleOutputs.append("Blockdata \(block.data)")
+        consoleOutputs.append("Created @ \(NSDate(timeIntervalSince1970: block.createdAt))")
+        
+        if block.index > 0
+        {
+            consoleOutputs.append("Mined @ \(NSDate(timeIntervalSince1970: block.minedAt))")
+            consoleOutputs.append("MiningTime \(block.miningTime/1000)")
+            consoleOutputs.append("CurrentDifficult \(block.difficult)")
+            consoleOutputs.append("nonce \(block.nonce)")
+        }
+
+        consoleOutputs.append("Hash:\(block.blockHash)")
     }
     
     // Print block info for debug purpose
