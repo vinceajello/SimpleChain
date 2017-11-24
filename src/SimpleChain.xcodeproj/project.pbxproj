@@ -123,6 +123,7 @@
 		616468E71FBA355000973E8B /* SimpleChain */ = {
 			isa = PBXGroup;
 			children = (
+				616468F21FBA355000973E8B /* Assets.xcassets */,
 				618301581FC41AA200F850D7 /* ACProgressHUD */,
 				616469241FBA486000973E8B /* BridgingHeader.h */,
 				616468E81FBA355000973E8B /* AppDelegate.swift */,
@@ -172,7 +173,6 @@
 				618301531FC41A8A00F850D7 /* ACProgressHUD.swift */,
 				618301501FC41A8900F850D7 /* ACProgressView.swift */,
 				618301511FC41A8900F850D7 /* ACProgressView.xib */,
-				616468F21FBA355000973E8B /* Assets.xcassets */,
 			);
 			path = ACProgressHUD;
 			sourceTree = "<group>";
