@@ -11,7 +11,7 @@ import UIKit
 class BlockChain: NSObject
 {
     var chain:[Block]
-    var difficult:Int = 4;
+    var difficult:Int = 2;
     var consoleOutputs: [String] = []
     
     override init()

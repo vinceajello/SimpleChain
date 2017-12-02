@@ -26,6 +26,8 @@ class ViewController: UIViewController
     @IBOutlet weak var field: UITextField!
     @IBOutlet weak var HelloChainButton: UIButton!
     @IBOutlet weak var AddNewBlockButton: UIButton!
+    @IBOutlet weak var DifficultySteppr: UIStepper!
+    @IBOutlet weak var DifficultyLabel: UILabel!
     var progressView = ACProgressHUD.shared
 
     override func viewDidLoad()
@@ -34,6 +36,8 @@ class ViewController: UIViewController
         field.textColor = UIColor.darkGray
         AddNewBlockButton.tintColor = UIColor.darkGray
         self.progressView = ACProgressHUD.shared
+        self.DifficultySteppr.value = Double(blockchain.difficult)
+        self.setNewDifficult(newDifficult: Int(DifficultySteppr.value))
     }
     
     @IBAction func HelloChainButtonPressed(_ sender: Any)
@@ -87,6 +91,17 @@ class ViewController: UIViewController
         field.textColor = UIColor.darkGray
         field.textAlignment = NSTextAlignment.left
         field.text = ""
+    }
+    @IBAction func ChangeDifficulty(_ sender: Any)
+    {
+        self.setNewDifficult(newDifficult: Int(DifficultySteppr.value))
+    }
+    
+    func setNewDifficult(newDifficult:Int)
+    {
+        blockchain.difficult = newDifficult
+        DifficultyLabel.text = "Difficult: \(newDifficult)"
+        self.AddNewBlockButton.setTitle("", for: UIControlState.normal)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)

@@ -16,6 +16,7 @@ class BlocklistController: UITableViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        self.tableView.backgroundColor = UIColor.darkGray
     }
 
     override func didReceiveMemoryWarning()
@@ -27,7 +28,7 @@ class BlocklistController: UITableViewController
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
-        return 105.0;
+        return 140.0;
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int
